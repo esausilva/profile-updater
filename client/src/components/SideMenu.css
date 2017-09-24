@@ -1,0 +1,17 @@
+.layout {
+  padding: 20px;
+  display: flex !important;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.h1 {
+  margin-bottom: 55px !important;
+  font-size: 2.4rem !important;
+  font-weight: bold !important;
+}
+
+.logout {
+  cursor: pointer !important;
+  align-self: flex-end;
+}

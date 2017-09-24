@@ -1,0 +1,28 @@
+.width-login {
+  width: 175px;
+  margin: 10px 8px !important;
+}
+
+.width-updater {
+  width: 160px;
+  margin-bottom: 10px !important;
+}
+
+.hide {
+  display: none;
+}
+
+@media (max-width: 570px) {
+  .flex-login-buttons {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.flex-updater-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 2;
+  justify-content: flex-end;
+}

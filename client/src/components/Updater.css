@@ -1,0 +1,26 @@
+.div {
+  height: 100vh;
+}
+
+.container-style {
+  background-color: #1b1c1d;
+}
+
+.menu-button {
+  position: fixed !important;
+  z-index: 1001 !important;
+  width: 47px;
+}
+
+.mobile-hamburger {
+  position: absolute;
+  top: 10px;
+  display: none !important;
+}
+
+@media (max-width: 374px) {
+  .mobile-hamburger {
+    display: block !important;
+    right: 20px;
+  }
+}

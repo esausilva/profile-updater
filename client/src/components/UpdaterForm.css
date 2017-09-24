@@ -1,0 +1,14 @@
+.count {
+  font-size: 0.8em;
+  color: #727272;
+  float: right;
+  margin-top: -1.2em;
+  margin-right: 0.6em;
+}
+
+.highlight {
+  color: #c24f4f;
+  font-weight: bold;
+  font-size: 0.9em;
+  margin-top: -1.1em;
+}
