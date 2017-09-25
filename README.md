@@ -2,7 +2,11 @@
 
 > Updates social profiles: GitHub, Twitter and Facebook
 
-This project is still in development and not ready for production usage.
+The purpose is to type your profile information once, and then send the updates to your profile in Twitter, GitHub & Facebook.
+
+This project is still in development and not ready for production usage, however it is up to a point where I feel comfortable to make it public. As of right now, you can already send updates to Twitter and GitHub.
+
+Also, once the project is complete, I will create a series of blog posts tutorials on building this app, including Webpack configuration for development and production.
 
 ## Technologies/OSS Projects Used
 
@@ -34,7 +38,7 @@ Rename `.env.example` to `.env` in **server** and **client**
 
 ### Firebase
 
- 1. Create an app [https://console.firebase.google.com/](https://console.firebase.google.com/)
+ 1. Create an app. [https://console.firebase.google.com/](https://console.firebase.google.com/)
  2. Select **Database** > **Rules** and change the default to this:
 ```
 {
