@@ -87,7 +87,7 @@ In no particular order.
  - ~~Better "Page Not Found"~~
  - Current connected profiles and profile information in side menu
  - Code splitting
- - Input validation and sanitization
+ - Update to React 16
  - Better error handling throughout the app
  - *I know there are others, but I forget right now* 🙁
  - Send updates to Facebook profile (will implement last)
