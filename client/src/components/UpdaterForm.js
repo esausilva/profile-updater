@@ -10,7 +10,9 @@ import {
 } from 'semantic-ui-react';
 import update from 'immutability-helper';
 
+import Layout from '../containers/Layout';
 import Content from '../containers/Content';
+import firebase from '../firebase';
 import { readUserFromFirebase } from '../library/firebaseMethods';
 import API from '../api';
 import { firstLetterToUpper } from '../library/utils';
@@ -18,10 +20,6 @@ import { firstLetterToUpper } from '../library/utils';
 import { count, highlight } from './UpdaterForm.css';
 
 class UpdaterForm extends Component {
-  static propTypes = {
-    firebase: object.isRequired
-  };
-
   state = {
     fields: {
       location: '',
@@ -50,8 +48,6 @@ class UpdaterForm extends Component {
    * checks if Twitter is one of the social providers and sets the user's tokens to state.
    */
   componentDidMount() {
-    const { firebase } = this.props;
-
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         readUserFromFirebase(firebase.database(), user.uid).then(savedUser =>
@@ -116,6 +112,12 @@ class UpdaterForm extends Component {
         url: '',
         company: '',
         bio: 'updated from profile-updater app'
+      },
+      count: {
+        location: 0,
+        url: 0,
+        company: 0,
+        bio: 0
       },
       message: {
         hidden: false,
@@ -207,33 +209,35 @@ class UpdaterForm extends Component {
     const { color, hidden, header, text } = this.state.message;
 
     return (
-      <Content>
-        <Message
-          color={color}
-          hidden={hidden}
-          onDismiss={this.handleMessageDismiss}
-        >
-          <Message.Header>{header}</Message.Header>
-          <p>{text}</p>
-        </Message>
-        <Grid columns={2} divided stackable>
-          <Grid.Row>
-            <Grid.Column width={12}>{this.renderForm()}</Grid.Column>
-            <Grid.Column width={4}>
-              <Header as="h3">Twitter Limitations</Header>
-              <p>
-                Twitter has some limitations in how much text you can enter:
-              </p>
-              <ul>
-                <li>Location: 30 characters</li>
-                <li>Blog/Website: 100 characters</li>
-                <li>Company: N/A</li>
-                <li>Bio: 160 characters</li>
-              </ul>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Content>
+      <Layout>
+        <Content>
+          <Message
+            color={color}
+            hidden={hidden}
+            onDismiss={this.handleMessageDismiss}
+          >
+            <Message.Header>{header}</Message.Header>
+            <p>{text}</p>
+          </Message>
+          <Grid columns={2} divided stackable>
+            <Grid.Row>
+              <Grid.Column width={12}>{this.renderForm()}</Grid.Column>
+              <Grid.Column width={4}>
+                <Header as="h3">Twitter Limitations</Header>
+                <p>
+                  Twitter has some limitations in how much text you can enter:
+                </p>
+                <ul>
+                  <li>Location: 30 characters</li>
+                  <li>Blog/Website: 100 characters</li>
+                  <li>Company: N/A</li>
+                  <li>Bio: 160 characters</li>
+                </ul>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Content>
+      </Layout>
     );
   }
 }

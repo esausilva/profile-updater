@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
+import { node } from 'prop-types';
 import { Sidebar, Icon } from 'semantic-ui-react';
 
-import SideMenu from './SideMenu';
-import UpdaterForm from './UpdaterForm';
-import firebase from '../firebase';
+import SideMenu from '../components/SideMenu';
 
-import styles from './Updater.css';
+import styles from './Layout.css';
 
 /**
- * Secure area layout.
+ * Main area layout.
  */
-class Updater extends Component {
+class Layout extends Component {
+  static propTypes = {
+    children: node.isRequired
+  };
+
   state = {
     sidebarVisibility: false,
     pusherDimmed: false
@@ -42,17 +45,17 @@ class Updater extends Component {
             className={mobileHamburger}
             onClick={this.toggleVisibility}
           />
-          <SideMenu firebase={firebase} />
+          <SideMenu />
         </Sidebar>
         <Sidebar.Pusher dimmed={this.state.pusherDimmed}>
           <div className={menuStyle} onClick={this.toggleVisibility}>
             <Icon name="content" />
           </div>
-          <UpdaterForm firebase={firebase} />
+          {this.props.children}
         </Sidebar.Pusher>
       </Sidebar.Pushable>
     );
   }
 }
 
-export default Updater;
+export default Layout;

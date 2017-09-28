@@ -84,7 +84,8 @@ Will launch Node and React apps concurrently.
 
 In no particular order.
 
- - Better "Page Not Found"
+ - ~~Better "Page Not Found"~~
+ - Current connected profiles and profile information in side menu
  - Code splitting
  - Input validation and sanitization
  - Better error handling throughout the app

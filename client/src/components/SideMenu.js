@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import { object, func } from 'prop-types';
 import { Container, Header, Icon } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
+import firebase from '../firebase';
 import SocialButtonList from './SocialButtonList';
 import { SOCIAL_BUTTON_SIZE_SMALL } from '../library/constants';
 
 import { h1, layout, logout as logoutStyle } from './SideMenu.css';
 
-const propTypes = {
-  firebase: object.isRequired
-};
-
-const SideMenu = ({ firebase }) => {
+const SideMenu = () => {
   const logOut = () => {
     firebase
       .auth()
@@ -22,9 +20,11 @@ const SideMenu = ({ firebase }) => {
 
   return (
     <Container fluid className={layout}>
-      <Header as="h1" className={h1} inverted>
-        profile<br />updater
-      </Header>
+      <Link to="/updater">
+        <Header as="h1" className={h1} inverted>
+          profile<br />updater
+        </Header>
+      </Link>
       <SocialButtonList
         size={SOCIAL_BUTTON_SIZE_SMALL}
         orientation="vertical"
@@ -42,7 +42,5 @@ const SideMenu = ({ firebase }) => {
     </Container>
   );
 };
-
-SideMenu.propTypes = propTypes;
 
 export default SideMenu;
