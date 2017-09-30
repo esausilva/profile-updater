@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { object, func } from 'prop-types';
 import { Container, Header, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';

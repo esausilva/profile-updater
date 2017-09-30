@@ -53,8 +53,7 @@ class SocialButtonList extends Component {
         provider: () =>
           new this.props.firebase.firebase_.auth.FacebookAuthProvider()
       }
-    },
-    userCredentials: {}
+    }
   };
 
   /**

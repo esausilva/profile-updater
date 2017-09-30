@@ -61,5 +61,6 @@
     "twitter",
     "react",
     "webpack"
-  ]
+  ],
+  "boilerplate": "https://github.com/esausilva/react-starter-boilerplate-hmr"
 }
