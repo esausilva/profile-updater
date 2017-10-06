@@ -34,7 +34,7 @@ const fetchUser = async (screenName, credentials) => {
 
   if (response.status !== 200) throw Error(body.message);
 
-  return body;
+  return { ...body, provider: 'twitter' };
 };
 
 const updateProfile = async ({ fields, credentials }) => {

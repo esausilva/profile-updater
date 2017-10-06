@@ -25,7 +25,7 @@ class UpdaterForm extends Component {
       location: '',
       url: '',
       company: '',
-      bio: 'updated from profile-updater app'
+      bio: ''
     },
     count: {
       location: 0,
@@ -111,7 +111,7 @@ class UpdaterForm extends Component {
         location: '',
         url: '',
         company: '',
-        bio: 'updated from profile-updater app'
+        bio: ''
       },
       count: {
         location: 0,

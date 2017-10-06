@@ -4,6 +4,7 @@ import { Container, Header, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import firebase from '../firebase';
+import SocialProfileList from './SocialProfileList';
 import SocialButtonList from './SocialButtonList';
 import { SOCIAL_BUTTON_SIZE_SMALL } from '../library/constants';
 
@@ -25,6 +26,7 @@ const SideMenu = () => {
           profile<br />updater
         </Header>
       </Link>
+      <SocialProfileList firebase={firebase} />
       <SocialButtonList
         size={SOCIAL_BUTTON_SIZE_SMALL}
         orientation="vertical"

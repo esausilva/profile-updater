@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container-inner {
+  display: flex;
+  justify-content: center;
+  margin: 5px;
+}
+
+.container-inner img {
+  border-radius: 10px;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+}
+
+.logo i {
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.info {
+  background: #fff;
+  display: none;
+}

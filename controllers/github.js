@@ -25,7 +25,7 @@ const fetchUser = async credentials => {
 
   if (response.status !== 200) throw Error(body.message);
 
-  return body;
+  return { ...body, provider: 'github', blog: `http://${body.blog}` };
 };
 
 const updateProfile = async ({ fields, credentials }) => {
