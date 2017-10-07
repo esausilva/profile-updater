@@ -85,7 +85,7 @@ Will launch Node and React apps concurrently.
 In no particular order.
 
  - ~~Better "Page Not Found"~~
- - Current connected profiles and profile information in side menu
+ - ~~Current connected providers and profile information in side menu~~
  - Code splitting
  - Update to React 16
  - Better error handling throughout the app
