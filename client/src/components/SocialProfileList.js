@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { object } from 'prop-types';
 import { Icon, Button } from 'semantic-ui-react';
 
-import { readUserFromFirebase } from '../library/firebaseMethods';
+import {
+  readUserFromFirebase,
+  removeUserProviderFromFirebase
+} from '../library/firebaseMethods';
 import API from '../api';
-import { isEmptyObject } from '../library/utils';
+import { isEmptyObject, firstLetterToUpper } from '../library/utils';
 
 import styles from './SocialProfileList.css';
 
@@ -83,8 +86,38 @@ class SocialProfileList extends Component {
   };
 
   /**
-   * Dinamically add styles for follow along "dropdown"
+   * @param {string} provider - Social media provider
+   * @param {string} userId - User ID of the currently logged in user
+   */
+  removeProviderFromFirebase = (provider, userId) => {
+    removeUserProviderFromFirebase(
+      this.props.firebase.database(),
+      userId,
+      provider
+    );
+  };
+
+  /**
    * @param {object} e - Click event
+   * @param {string} provider - Social media provider
+   */
+  handleProviderUnlink = async (e, provider) => {
+    if (
+      confirm(`Do you really want to unlink ${firstLetterToUpper(provider)}?`)
+    ) {
+      const { currentUser } = this.props.firebase.auth();
+      const { userCredentials } = this.state;
+
+      await currentUser.unlink(`${provider}.com`);
+      await this.removeProviderFromFirebase(provider, currentUser.uid);
+      delete userCredentials[provider];
+      this.setState({ userCredentials }, () => this.getProfilesInfo());
+    }
+  };
+
+  /**
+   * Dinamically add styles for follow along "dropdown"
+   * @param {object} e - Mouse enter event
    */
   handleEnter = e => {
     const el = e.target;
@@ -119,7 +152,7 @@ class SocialProfileList extends Component {
 
   /**
    * Removes dynamic "dropdown" styles
-   * @param {object} e - Click event
+   * @param {object} e - Mouse leave event
    */
   handleLeave = e => {
     const { triggerEnter, triggerEnterActive, open } = styles;
@@ -143,7 +176,13 @@ class SocialProfileList extends Component {
             <a href={homepage} target="_blank">
               <Icon name={provider} size="huge" inverted />
             </a>
-            <Button color="red" size="mini" inverted compact>
+            <Button
+              color="red"
+              size="mini"
+              onClick={e => this.handleProviderUnlink(e, provider)}
+              inverted
+              compact
+            >
               Unlink
             </Button>
           </div>

@@ -20,3 +20,6 @@ export const updateUserToFirebase = (db, user) => {
 
   return db.ref().update(updates);
 };
+
+export const removeUserProviderFromFirebase = (db, userId, provider) =>
+  db.ref(`/user/${userId}/${provider}`).remove();

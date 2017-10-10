@@ -89,10 +89,12 @@ In no particular order.
  - Code splitting
  - Update to React 16
  - Better error handling throughout the app
- - Unlink an auth provider from a user account
+ - ~~Unlink an auth provider from an user account~~
  - *I know there are others, but I forget right now* 🙁
  - Send updates to Facebook profile (will implement last)
 
 ## Preview
 
 ![GIF](https://i.imgur.com/Kr5TgjB.gif)
+
+![GIF](https://i.imgur.com/sVqiw0m.gif)
