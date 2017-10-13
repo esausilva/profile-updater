@@ -71,7 +71,7 @@ class SocialButtonList extends Component {
             acc = update(acc, {
               [providerId]: {
                 visible: {
-                  $set: !this.state.buttonList[providerId].visible
+                  $set: false
                 }
               }
             });
@@ -138,7 +138,20 @@ class SocialButtonList extends Component {
       }
 
       await updateUserToFirebase(db, updatedUser);
-      this.props.history.push('/updater');
+
+      if (this.props.orientation === HORIZONTAL) {
+        this.props.history.push('/updater');
+      } else {
+        this.setState({
+          buttonList: update(this.state.buttonList, {
+            [provider]: {
+              visible: {
+                $set: false
+              }
+            }
+          })
+        });
+      }
     }
   };
 
