@@ -1,88 +1,18 @@
 import React, { Component } from 'react';
-import { object } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Icon, Button } from 'semantic-ui-react';
 
-import {
-  readUserFromFirebase,
-  removeUserProviderFromFirebase
-} from '../library/firebaseMethods';
-import API from '../api';
-import { isEmptyObject, firstLetterToUpper } from '../library/utils';
+import { removeUserProviderFromFirebase } from '../library/firebaseMethods';
+import { firstLetterToUpper } from '../library/utils';
 
 import styles from './SocialProfileList.css';
 
 class SocialProfileList extends Component {
   static propTypes = {
-    firebase: object.isRequired
-  };
-
-  state = {
-    profiles: [],
-    userCredentials: {}
-  };
-
-  /**
-   * Checks if user is logged in, if so then reads user's tokens from Firebase database,
-   * and sets the user's tokens to state.
-   */
-  componentDidMount() {
-    const { firebase } = this.props;
-
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        readUserFromFirebase(firebase.database(), user.uid).then(savedUser =>
-          this.setState(
-            {
-              userCredentials: savedUser
-            },
-            () => this.getProfilesInfo()
-          )
-        );
-      }
-    });
-  }
-
-  /**
-   * Calls provider APIs to read user's profile information
-   */
-  getProfilesInfo = async () => {
-    const { userCredentials } = this.state;
-    const promisesArr = Object.keys(userCredentials).map(provider => {
-      if (provider === 'github') {
-        return API.fetchGithubUser(userCredentials.github);
-      }
-      if (provider === 'twitter') {
-        return API.fetchTwitterUser('_esausilva', userCredentials.twitter);
-      }
-    });
-    const resolved = await Promise.all(promisesArr);
-    const profiles = resolved.map(profile => {
-      if (profile.provider === 'github') {
-        return {
-          github: {
-            location: profile.location,
-            url: profile.blog,
-            company: profile.company,
-            bio: profile.bio,
-            profilePhoto: profile.avatar_url,
-            homepage: profile.html_url
-          }
-        };
-      }
-      if (profile.provider === 'twitter') {
-        return {
-          twitter: {
-            location: profile.location,
-            url: profile.entities.url.urls[0].expanded_url,
-            bio: profile.description,
-            profilePhoto: profile.profile_image_url,
-            homepage: `https://twitter.com/${profile.screen_name}`
-          }
-        };
-      }
-    });
-
-    this.setState({ profiles });
+    firebase: PropTypes.object.isRequired,
+    profiles: PropTypes.array.isRequired,
+    userCredentials: PropTypes.object.isRequired,
+    updateSideMenuItems: PropTypes.func.isRequired
   };
 
   /**
@@ -101,17 +31,19 @@ class SocialProfileList extends Component {
    * @param {object} e - Click event
    * @param {string} provider - Social media provider
    */
-  handleProviderUnlink = async (e, provider) => {
+  handleProviderUnlink = async (e, providerId) => {
     if (
-      confirm(`Do you really want to unlink ${firstLetterToUpper(provider)}?`)
+      confirm(`Do you really want to unlink ${firstLetterToUpper(providerId)}?`)
     ) {
-      const { currentUser } = this.props.firebase.auth();
-      const { userCredentials } = this.state;
+      const { firebase, userCredentials, updateSideMenuItems } = this.props;
 
-      await currentUser.unlink(`${provider}.com`);
-      await this.removeProviderFromFirebase(provider, currentUser.uid);
-      delete userCredentials[provider];
-      this.setState({ userCredentials }, () => this.getProfilesInfo());
+      await firebase.auth().currentUser.unlink(`${providerId}.com`);
+      await this.removeProviderFromFirebase(
+        providerId,
+        firebase.auth().currentUser.uid
+      );
+      delete userCredentials[providerId];
+      updateSideMenuItems(true, userCredentials, providerId);
     }
   };
 
@@ -164,7 +96,7 @@ class SocialProfileList extends Component {
   renderProfiles = () => {
     const { containerInner, logo, info, url } = styles;
 
-    return this.state.profiles.map(profile => {
+    return this.props.profiles.map(profile => {
       const provider = Object.keys(profile)[0];
       const { location, homepage, profilePhoto, url, bio, company } = profile[
         provider

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { string, object } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Button, Icon } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import update from 'immutability-helper';
@@ -20,74 +20,16 @@ import styles from './SocialButtonList.css';
 
 class SocialButtonList extends Component {
   static propTypes = {
-    size: string.isRequired,
-    orientation: string,
-    firebase: object.isRequired
+    size: PropTypes.string.isRequired,
+    orientation: PropTypes.string,
+    firebase: PropTypes.object.isRequired,
+    buttonList: PropTypes.object.isRequired,
+    updateSideMenuItems: PropTypes.func
   };
 
   static defaultProps = {
     orientation: HORIZONTAL
   };
-
-  state = {
-    buttonList: {
-      github: {
-        color: this.props.orientation === HORIZONTAL ? 'black' : 'grey',
-        visible: true,
-        provider: () => {
-          const provider = new this.props.firebase.firebase_.auth
-            .GithubAuthProvider();
-          provider.addScope('user');
-          return provider;
-        }
-      },
-      twitter: {
-        color: 'twitter',
-        visible: true,
-        provider: () =>
-          new this.props.firebase.firebase_.auth.TwitterAuthProvider()
-      },
-      facebook: {
-        color: 'facebook',
-        visible: true,
-        provider: () =>
-          new this.props.firebase.firebase_.auth.FacebookAuthProvider()
-      }
-    }
-  };
-
-  /**
-   * Checks if user is logged in, if so then reads connected social providers and changes
-   * the visibility of the social button icons.
-   */
-  componentDidMount() {
-    const { firebase } = this.props;
-
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        const updatedButtonList = user.providerData.reduce(
-          (acc, providerObj) => {
-            const providerId = providerObj.providerId.split('.')[0];
-            acc = update(acc, {
-              [providerId]: {
-                visible: {
-                  $set: false
-                }
-              }
-            });
-            return acc;
-          },
-          { ...this.state.buttonList }
-        );
-
-        this.setState({
-          buttonList: updatedButtonList
-        });
-      } else {
-        this.props.history.push('/');
-      }
-    });
-  }
 
   /**
    * Returns an object with encrypted access tokens and secret token.
@@ -114,7 +56,13 @@ class SocialButtonList extends Component {
    */
   authHandler = async authData => {
     if (authData) {
-      const db = this.props.firebase.database();
+      const {
+        firebase,
+        orientation,
+        history,
+        updateSideMenuItems
+      } = this.props;
+      const db = firebase.database();
       const userId = authData.user.uid;
       const provider = authData.credential.providerId.split('.')[0];
       const savedUser = await readUserFromFirebase(db, userId);
@@ -139,18 +87,11 @@ class SocialButtonList extends Component {
 
       await updateUserToFirebase(db, updatedUser);
 
-      if (this.props.orientation === HORIZONTAL) {
-        this.props.history.push('/updater');
+      // 'orientation' is 'HORIZONTAL' when in Login screen
+      if (orientation === HORIZONTAL) {
+        history.push('/updater');
       } else {
-        this.setState({
-          buttonList: update(this.state.buttonList, {
-            [provider]: {
-              visible: {
-                $set: false
-              }
-            }
-          })
-        });
+        updateSideMenuItems(false, updatedUser.data, provider);
       }
     }
   };
@@ -162,8 +103,8 @@ class SocialButtonList extends Component {
    */
   authenticate = (e, providerName) => {
     e.preventDefault();
-    const { firebase } = this.props;
-    const providerObject = this.state.buttonList[providerName].provider();
+    const { firebase, buttonList } = this.props;
+    const providerObject = buttonList[providerName].provider();
 
     if (!firebase.auth().currentUser) {
       firebase
@@ -185,8 +126,8 @@ class SocialButtonList extends Component {
    */
   renderButtonList = key => {
     const { widthLogin, widthUpdater, hide } = styles;
-    const { orientation, size } = this.props;
-    const button = this.state.buttonList[key];
+    const { orientation, size, buttonList } = this.props;
+    const button = buttonList[key];
     let btnStyle = '';
 
     if (orientation === HORIZONTAL && size === SOCIAL_BUTTON_SIZE_BIG)
@@ -210,9 +151,8 @@ class SocialButtonList extends Component {
 
   render() {
     const { flexLoginButtons, flexUpdaterButtons } = styles;
-    const { orientation, size } = this.props;
+    const { orientation, size, buttonList } = this.props;
     let display = '';
-
     if (orientation === HORIZONTAL && size === SOCIAL_BUTTON_SIZE_BIG)
       display = flexLoginButtons;
     else if (orientation === VERTICAL && size === SOCIAL_BUTTON_SIZE_SMALL)
@@ -220,7 +160,7 @@ class SocialButtonList extends Component {
 
     return (
       <div className={display}>
-        {Object.keys(this.state.buttonList).map(this.renderButtonList)}
+        {Object.keys(buttonList).map(this.renderButtonList)}
       </div>
     );
   }
