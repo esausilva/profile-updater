@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Button } from 'semantic-ui-react';
 
@@ -7,38 +7,34 @@ import { firstLetterToUpper } from '../library/utils';
 
 import styles from './SocialProfileList.css';
 
-class SocialProfileList extends Component {
-  static propTypes = {
-    firebase: PropTypes.object.isRequired,
-    profiles: PropTypes.array.isRequired,
-    userCredentials: PropTypes.object.isRequired,
-    updateSideMenuItems: PropTypes.func.isRequired
-  };
+const propTypes = {
+  firebase: PropTypes.object.isRequired,
+  profiles: PropTypes.array.isRequired,
+  userCredentials: PropTypes.object.isRequired,
+  updateSideMenuItems: PropTypes.func.isRequired
+};
 
+const SocialProfileList = props => {
   /**
    * @param {string} provider - Social media provider
    * @param {string} userId - User ID of the currently logged in user
    */
-  removeProviderFromFirebase = (provider, userId) => {
-    removeUserProviderFromFirebase(
-      this.props.firebase.database(),
-      userId,
-      provider
-    );
+  const removeProviderFromFirebase = (provider, userId) => {
+    removeUserProviderFromFirebase(props.firebase.database(), userId, provider);
   };
 
   /**
    * @param {object} e - Click event
    * @param {string} provider - Social media provider
    */
-  handleProviderUnlink = async (e, providerId) => {
+  const handleProviderUnlink = async (e, providerId) => {
     if (
       confirm(`Do you really want to unlink ${firstLetterToUpper(providerId)}?`)
     ) {
-      const { firebase, userCredentials, updateSideMenuItems } = this.props;
+      const { firebase, userCredentials, updateSideMenuItems } = props;
 
       await firebase.auth().currentUser.unlink(`${providerId}.com`);
-      await this.removeProviderFromFirebase(
+      await removeProviderFromFirebase(
         providerId,
         firebase.auth().currentUser.uid
       );
@@ -51,7 +47,7 @@ class SocialProfileList extends Component {
    * Dinamically add styles for follow along "dropdown"
    * @param {object} e - Mouse enter event
    */
-  handleEnter = e => {
+  const handleEnter = e => {
     const el = e.target;
     const { triggerEnter, triggerEnterActive, open, infoBlock } = styles;
 
@@ -86,17 +82,17 @@ class SocialProfileList extends Component {
    * Removes dynamic "dropdown" styles
    * @param {object} e - Mouse leave event
    */
-  handleLeave = e => {
+  const handleLeave = e => {
     const { triggerEnter, triggerEnterActive, open } = styles;
 
     e.target.classList.remove(triggerEnter, triggerEnterActive);
     this.background.classList.remove(open);
   };
 
-  renderProfiles = () => {
+  const renderProfiles = () => {
     const { containerInner, logo, info, url } = styles;
 
-    return this.props.profiles.map(profile => {
+    return props.profiles.map(profile => {
       const provider = Object.keys(profile)[0];
       const { location, homepage, profilePhoto, url, bio, company } = profile[
         provider
@@ -111,7 +107,7 @@ class SocialProfileList extends Component {
             <Button
               color="red"
               size="mini"
-              onClick={e => this.handleProviderUnlink(e, provider)}
+              onClick={e => handleProviderUnlink(e, provider)}
               inverted
               compact
             >
@@ -122,8 +118,8 @@ class SocialProfileList extends Component {
             src={profilePhoto}
             width="130"
             height="130"
-            onMouseEnter={this.handleEnter}
-            onMouseLeave={this.handleLeave}
+            onMouseEnter={handleEnter}
+            onMouseLeave={handleLeave}
           />
           <div className={info}>
             <label>
@@ -153,21 +149,19 @@ class SocialProfileList extends Component {
     });
   };
 
-  render() {
-    const { container, dropdownBackground, arrow } = styles;
-
-    return (
-      <div className={container} ref={div => (this.container = div)}>
-        <div
-          className={dropdownBackground}
-          ref={div => (this.background = div)}
-        >
-          <span className={arrow} />
-        </div>
-        {this.renderProfiles()}
+  return (
+    <div className={styles.container} ref={div => (this.container = div)}>
+      <div
+        className={styles.dropdownBackground}
+        ref={div => (this.background = div)}
+      >
+        <span className={styles.arrow} />
       </div>
-    );
-  }
-}
+      {renderProfiles()}
+    </div>
+  );
+};
+
+SocialProfileList.propTypes = propTypes;
 
 export default SocialProfileList;

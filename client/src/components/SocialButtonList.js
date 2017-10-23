@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
@@ -18,19 +18,19 @@ import {
 
 import styles from './SocialButtonList.css';
 
-class SocialButtonList extends Component {
-  static propTypes = {
-    size: PropTypes.string.isRequired,
-    orientation: PropTypes.string,
-    firebase: PropTypes.object.isRequired,
-    buttonList: PropTypes.object.isRequired,
-    updateSideMenuItems: PropTypes.func
-  };
+const propTypes = {
+  size: PropTypes.string.isRequired,
+  orientation: PropTypes.string,
+  firebase: PropTypes.object.isRequired,
+  buttonList: PropTypes.object.isRequired,
+  updateSideMenuItems: PropTypes.func
+};
 
-  static defaultProps = {
-    orientation: HORIZONTAL
-  };
+const defaultProps = {
+  orientation: HORIZONTAL
+};
 
+const SocialButtonList = props => {
   /**
    * Returns an object with encrypted access tokens and secret token.
    * Returns:
@@ -40,7 +40,7 @@ class SocialButtonList extends Component {
    * }
    * @param {object} data - User authentication data
    */
-  processAuthData = data =>
+  const processAuthData = data =>
     Object.keys(data).reduce((acc, key) => {
       if (key === 'accessToken' || key === 'secret') {
         acc[key] = encrypt(data[key]);
@@ -54,19 +54,14 @@ class SocialButtonList extends Component {
    * Firebase database.
    * @param {object} authData - Authentication object from Firebase upon login
    */
-  authHandler = async authData => {
+  const authHandler = async authData => {
     if (authData) {
-      const {
-        firebase,
-        orientation,
-        history,
-        updateSideMenuItems
-      } = this.props;
+      const { firebase, orientation, history, updateSideMenuItems } = props;
       const db = firebase.database();
       const userId = authData.user.uid;
       const provider = authData.credential.providerId.split('.')[0];
       const savedUser = await readUserFromFirebase(db, userId);
-      const credentials = this.processAuthData(authData.credential);
+      const credentials = processAuthData(authData.credential);
       let updatedUser = {};
 
       if (!isEmptyObject(savedUser)) {
@@ -101,22 +96,22 @@ class SocialButtonList extends Component {
    * @param {object} e - Click event
    * @param {string} providerName - Name of the social provider
    */
-  authenticate = (e, providerName) => {
+  const authenticate = (e, providerName) => {
     e.preventDefault();
-    const { firebase, buttonList } = this.props;
+    const { firebase, buttonList } = props;
     const providerObject = buttonList[providerName].provider();
 
     if (!firebase.auth().currentUser) {
       firebase
         .auth()
         .signInWithPopup(providerObject)
-        .then(this.authHandler)
+        .then(authHandler)
         .catch(err => console.error(err));
     } else {
       firebase
         .auth()
         .currentUser.linkWithPopup(providerObject)
-        .then(this.authHandler)
+        .then(authHandler)
         .catch(err => console.error(err));
     }
   };
@@ -124,9 +119,9 @@ class SocialButtonList extends Component {
   /** 
    * Renders the social login buttons. 
    */
-  renderButtonList = key => {
+  const renderButtonList = key => {
     const { widthLogin, widthUpdater, hide } = styles;
-    const { orientation, size, buttonList } = this.props;
+    const { orientation, size, buttonList } = props;
     const button = buttonList[key];
     let btnStyle = '';
 
@@ -140,7 +135,7 @@ class SocialButtonList extends Component {
         key={key}
         href="#"
         className={button.visible ? '' : hide}
-        onClick={e => this.authenticate(e, key)}
+        onClick={e => authenticate(e, key)}
       >
         <Button color={button.color} size={size} className={btnStyle}>
           <Icon name={key} /> {key}
@@ -149,21 +144,27 @@ class SocialButtonList extends Component {
     );
   };
 
-  render() {
-    const { flexLoginButtons, flexUpdaterButtons } = styles;
-    const { orientation, size, buttonList } = this.props;
-    let display = '';
-    if (orientation === HORIZONTAL && size === SOCIAL_BUTTON_SIZE_BIG)
-      display = flexLoginButtons;
-    else if (orientation === VERTICAL && size === SOCIAL_BUTTON_SIZE_SMALL)
-      display = flexUpdaterButtons;
-
-    return (
-      <div className={display}>
-        {Object.keys(buttonList).map(this.renderButtonList)}
-      </div>
-    );
+  let display = '';
+  if (
+    props.orientation === HORIZONTAL &&
+    props.size === SOCIAL_BUTTON_SIZE_BIG
+  ) {
+    display = styles.flexLoginButtons;
+  } else if (
+    props.orientation === VERTICAL &&
+    props.size === SOCIAL_BUTTON_SIZE_SMALL
+  ) {
+    display = styles.flexUpdaterButtons;
   }
-}
+
+  return (
+    <div className={display}>
+      {Object.keys(props.buttonList).map(renderButtonList)}
+    </div>
+  );
+};
+
+SocialButtonList.propTypes = propTypes;
+SocialButtonList.defaultProps = defaultProps;
 
 export default withRouter(SocialButtonList);
