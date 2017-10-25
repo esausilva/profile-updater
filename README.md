@@ -87,7 +87,7 @@ In no particular order.
  - ~~Better "Page Not Found"~~
  - ~~Current connected providers and profile information in side menu~~
  - Code splitting
- - Update to React 16
+ - ~~Update to React 16 and Webpack 3~~
  - Better error handling throughout the app
  - ~~Unlink an auth provider from an user account~~
  - *I know there are others, but I forget right now* 🙁
