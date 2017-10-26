@@ -62,20 +62,23 @@ const SocialButtonList = props => {
       const provider = authData.credential.providerId.split('.')[0];
       const savedUser = await readUserFromFirebase(db, userId);
       const credentials = processAuthData(authData.credential);
+      const { username } = authData.additionalUserInfo;
       let updatedUser = {};
 
       if (!isEmptyObject(savedUser)) {
         updatedUser = {
           userId,
           data: update(savedUser, {
-            [provider]: { $set: { ...credentials } }
+            [provider]: {
+              $set: { ...credentials, username }
+            }
           })
         };
       } else {
         updatedUser = {
           userId,
           data: {
-            [provider]: { ...credentials }
+            [provider]: { ...credentials, username }
           }
         };
       }

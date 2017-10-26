@@ -68,7 +68,10 @@ class SideMenu extends Component {
         return API.fetchGithubUser(userCredentials.github);
       }
       if (providerId === 'twitter') {
-        return API.fetchTwitterUser('_esausilva', userCredentials.twitter);
+        return API.fetchTwitterUser(
+          userCredentials.twitter.username,
+          userCredentials.twitter
+        );
       }
     });
     const resolved = await Promise.all(promisesArr);
