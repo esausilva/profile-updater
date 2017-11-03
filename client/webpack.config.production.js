@@ -8,9 +8,12 @@ const MinifyPlugin = require('babel-minify-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    vendor: ['semantic-ui-react', 'firebase'],
+    app: './src/index.js'
+  },
   output: {
-    filename: 'static/bundle.[hash].js',
+    filename: 'static/[name].[hash].js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/'
   },
@@ -68,6 +71,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       favicon: 'public/favicon.ico'
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: ['vendor'],
+      minChunks: Infinity
     }),
     new ExtractTextPlugin('styles/styles.[hash].css'),
     new BundleAnalyzerPlugin({

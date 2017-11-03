@@ -39,11 +39,9 @@ class Login extends Component {
         />
         <Header as="h3">About</Header>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-          placerat eget nunc ac molestie. Suspendisse fringilla nisl et tellus
-          ultricies, sit amet rutrum odio faucibus. Nunc tincidunt lectus a
-          magna elementum, a placerat erat fringilla. Cras leo elit, tincidunt
-          vulputate euismod in, ullamcorper gravida ipsum.{' '}
+          A React App to Update Your Social Medial Profiles: Twitter, GitHub &
+          Facebook. The purpose is to type your profile information once, and
+          then send the updates to your profile in Twitter, GitHub & Facebook.
         </p>
       </Content>
     );

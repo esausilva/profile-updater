@@ -1,19 +1,30 @@
 import React from 'react';
 import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
-import { Header } from 'semantic-ui-react';
 
-import Login from '../components/Login';
-import UpdaterForm from '../components/UpdaterForm';
-import Layout from './Layout';
-import Content from './Content';
+import AsyncBundle from './AsyncBundle';
+//import Login from '../components/Login';
 
-const NoMatch = () => {
+const AsyncUpdaterForm = props => {
   return (
-    <Layout>
-      <Content>
-        <Header as="h1">Ooops! Page Not Found</Header>
-      </Content>
-    </Layout>
+    <AsyncBundle load={() => import('../components/UpdaterForm')}>
+      {UpdaterForm => <UpdaterForm {...props} />}
+    </AsyncBundle>
+  );
+};
+
+const AsyncLogin = props => {
+  return (
+    <AsyncBundle load={() => import('../components/Login')}>
+      {Login => <Login {...props} />}
+    </AsyncBundle>
+  );
+};
+
+const AsyncNoMatch = props => {
+  return (
+    <AsyncBundle load={() => import('../components/NoMatch')}>
+      {NoMatch => <NoMatch {...props} />}
+    </AsyncBundle>
   );
 };
 
@@ -22,9 +33,9 @@ const App = () => {
     <Router>
       <div>
         <Switch>
-          <Route path="/updater" component={UpdaterForm} />
-          <Route exact path="/" component={Login} />
-          <Route component={NoMatch} />
+          <Route path="/updater" component={AsyncUpdaterForm} />
+          <Route exact path="/" component={AsyncLogin} />
+          <Route component={AsyncNoMatch} />
         </Switch>
       </div>
     </Router>

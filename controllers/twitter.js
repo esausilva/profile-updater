@@ -39,7 +39,6 @@ const fetchUser = async (screenName, credentials) => {
 
 const updateProfile = async ({ fields, credentials }) => {
   const data = constructDataObject(fields, renameFields);
-  console.log(data);
   const queryStrings = constructQueryString(data);
   const url = `${ROOT_API_URL}account/update_profile.json?${queryStrings}`;
 

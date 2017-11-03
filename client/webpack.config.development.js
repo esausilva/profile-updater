@@ -8,14 +8,17 @@ const Dotenv = require('dotenv-webpack');
 const port = process.env.PORT || 3000;
 
 module.exports = {
-  entry: [
-    'react-hot-loader/patch',
-    `webpack-dev-server/client?http://localhost:${port}`,
-    'webpack/hot/only-dev-server',
-    './src/index.js'
-  ],
+  entry: {
+    vendor: ['semantic-ui-react', 'firebase'],
+    app: [
+      'react-hot-loader/patch',
+      `webpack-dev-server/client?http://localhost:${port}`,
+      'webpack/hot/only-dev-server',
+      './src/index.js'
+    ]
+  },
   output: {
-    filename: 'bundle.[hash].js',
+    filename: '[name].[hash].js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/'
   },
@@ -66,6 +69,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       favicon: 'public/favicon.ico'
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: ['vendor'],
+      minChunks: Infinity
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'disabled'
