@@ -1,15 +1,11 @@
-const path = require('path');
+const commonPaths = require('./common-paths');
+
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
-const Dotenv = require('dotenv-webpack');
 
 const port = process.env.PORT || 3000;
 
-module.exports = {
+const config = {
   entry: {
-    vendor: ['semantic-ui-react', 'firebase'],
     app: [
       'react-hot-loader/patch',
       `webpack-dev-server/client?http://localhost:${port}`,
@@ -18,9 +14,7 @@ module.exports = {
     ]
   },
   output: {
-    filename: '[name].[hash].js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/'
+    filename: '[name].[hash].js'
   },
   devtool: 'inline-source-map',
   module: {
@@ -44,39 +38,15 @@ module.exports = {
               camelCase: true,
               sourceMap: true
             }
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              config: {
-                ctx: {
-                  autoprefixer: {
-                    browsers: ['last 2 versions']
-                  }
-                }
-              }
-            }
           }
         ]
       }
     ]
   },
   plugins: [
-    new Dotenv(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new HtmlWebpackPlugin({
-      template: 'public/index.html',
-      favicon: 'public/favicon.ico'
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: ['vendor'],
-      minChunks: Infinity
-    }),
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'disabled'
-    })
+    new webpack.NoEmitOnErrorsPlugin()
   ],
   devServer: {
     host: 'localhost',
@@ -89,3 +59,5 @@ module.exports = {
     }
   }
 };
+
+module.exports = config;

@@ -80,6 +80,12 @@ yarn dev
 
 Will launch Node and React apps concurrently.
 
+To run with [Webpack Bundle Analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer)
+
+```
+yarn dev:bundleanalyzer
+```
+
 ## Roadmap
 
 In no particular order.
