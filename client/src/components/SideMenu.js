@@ -26,7 +26,7 @@ class SideMenu extends Component {
    * sets the user's tokens to state and gets connected profiles info.
    */
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged(async user => {
       if (user) {
         const updatedButtonList = user.providerData.reduce(
           (acc, providerObj) => {
@@ -43,15 +43,18 @@ class SideMenu extends Component {
           { ...this.state.buttonList }
         );
 
-        readUserFromFirebase(firebase.database(), user.uid).then(savedUser => {
-          this.setState(
-            {
-              buttonList: updatedButtonList,
-              userCredentials: savedUser
-            },
-            () => this.getProfilesInfo()
-          );
-        });
+        const userCredentials = await readUserFromFirebase(
+          firebase.database(),
+          user.uid
+        );
+
+        this.setState(
+          {
+            buttonList: updatedButtonList,
+            userCredentials
+          },
+          () => this.getProfilesInfo()
+        );
       } else {
         this.props.history.push('/');
       }
