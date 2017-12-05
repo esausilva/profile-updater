@@ -5,7 +5,7 @@ const { decrypt, constructDataObject } = require('../library/utils');
 const ROOT_API_URL = 'https://api.github.com/';
 
 /**
- * Field name mapping from generic profile-updater input fields to 
+ * Field name mapping from generic profile-updater input fields to
  * GitHub name fields.
  */
 const renameFields = {
@@ -25,7 +25,7 @@ const fetchUser = async credentials => {
 
   if (response.status !== 200) throw Error(body.message);
 
-  return { ...body, provider: 'github', blog: `http://${body.blog}` };
+  return { ...body, provider: 'github' };
 };
 
 const updateProfile = async ({ fields, credentials }) => {

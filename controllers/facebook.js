@@ -5,17 +5,15 @@ const ROOT_API_URL = '';
 const ACCESS_TOKEN = '';
 
 const renameFields = {
-  location: 'location',
-  company: 'company',//list<WorkExperience>
-  bio: 'about',//string
-  url: 'website'//string
+  location: 'location', //Page
+  company: 'work', //list<WorkExperience>
+  bio: 'about', //string
+  url: 'website' //string
 };
 
-const fetchUser = async () => {
-}
+const fetchUser = async () => {};
 
-const updateProfile = async (fields) => {
-}
+const updateProfile = async fields => {};
 
 const FacebookAPI = {
   fetchUser,

@@ -77,7 +77,9 @@ class SideMenu extends Component {
         );
       }
     });
-    const resolved = await Promise.all(promisesArr);
+    const resolved = await Promise.all(
+      promisesArr.filter(promise => promise !== undefined)
+    );
     const profiles = resolved.map(profile => {
       if (profile.provider === 'github') {
         return {

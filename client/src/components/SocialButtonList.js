@@ -49,8 +49,8 @@ const SocialButtonList = props => {
     }, {});
 
   /**
-   * Handles Firebase login authentication logic, if user authenticated, reads current 
-   * user tokens from Firebase database, updates with new tokens and saves them to 
+   * Handles Firebase login authentication logic, if user authenticated, reads current
+   * user tokens from Firebase database, updates with new tokens and saves them to
    * Firebase database.
    * @param {object} authData - Authentication object from Firebase upon login
    */
@@ -62,7 +62,10 @@ const SocialButtonList = props => {
       const provider = authData.credential.providerId.split('.')[0];
       const savedUser = await readUserFromFirebase(db, userId);
       const credentials = processAuthData(authData.credential);
-      const { username } = authData.additionalUserInfo;
+      const username =
+        authData.additionalUserInfo.username === undefined
+          ? 'N/A'
+          : authData.additionalUserInfo.username;
       let updatedUser = {};
 
       if (!isEmptyObject(savedUser)) {
@@ -119,8 +122,8 @@ const SocialButtonList = props => {
     }
   };
 
-  /** 
-   * Renders the social login buttons. 
+  /**
+   * Renders the social login buttons.
    */
   const renderButtonList = key => {
     const { widthLogin, widthUpdater, hide } = styles;
