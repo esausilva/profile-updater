@@ -3,6 +3,7 @@ const router = express.Router();
 
 const TwitterAPI = require('../controllers/twitter');
 const GitHubAPI = require('../controllers/github');
+const FacebookAPI = require('../controllers/facebook');
 
 router.get('/api/github', (req, res) => {
   GitHubAPI.fetchUser(req.headers['x-credentials'])
@@ -22,6 +23,12 @@ router.get('/api/twitter', (req, res) => {
 });
 router.post('/api/twitter', (req, res) => {
   TwitterAPI.updateProfile(req.body)
+    .then(data => res.json(data))
+    .catch(err => res.json(err));
+});
+
+router.get('/api/facebook', (req, res) => {
+  FacebookAPI.fetchUser(req.headers['x-credentials'])
     .then(data => res.json(data))
     .catch(err => res.json(err));
 });

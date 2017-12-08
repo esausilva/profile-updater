@@ -2,6 +2,7 @@ import 'whatwg-fetch';
 
 const URL_GITHUB = '/api/github';
 const URL_TWITTER = '/api/twitter';
+const URL_FACEBOOK = '/api/facebook';
 
 /**
  * Private.
@@ -81,11 +82,19 @@ const fetchGithubUser = credentials => fetchUser(URL_GITHUB, credentials);
 const updateGithubUserProfile = (fields, credentials) =>
   updateUserProfile(URL_GITHUB, fields, credentials);
 
+/**
+ * Public.
+ * Gets Facebook user profile details.
+ * @param {object} credentials - User authentication to connect to Facebook API
+ */
+const fetchFacebookUser = credentials => fetchUser(URL_FACEBOOK, credentials);
+
 const API = {
   fetchTwitterUser,
   updateTwitterUserProfile,
   fetchGithubUser,
-  updateGithubUserProfile
+  updateGithubUserProfile,
+  fetchFacebookUser
 };
 
 export default API;

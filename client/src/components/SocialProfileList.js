@@ -92,61 +92,63 @@ const SocialProfileList = props => {
   const renderProfiles = () => {
     const { containerInner, logo, info, url } = styles;
 
-    return props.profiles.map(profile => {
-      const provider = Object.keys(profile)[0];
-      const { location, homepage, profilePhoto, url, bio, company } = profile[
-        provider
-      ];
+    return props.profiles
+      .filter(profile => profile !== undefined)
+      .map(profile => {
+        const provider = Object.keys(profile)[0];
+        const { location, homepage, profilePhoto, url, bio, company } = profile[
+          provider
+        ];
 
-      return (
-        <div className={containerInner} key={provider}>
-          <div className={logo}>
-            <a href={homepage} target="_blank">
-              <Icon name={provider} size="huge" inverted />
-            </a>
-            <Button
-              color="red"
-              size="mini"
-              onClick={e => handleProviderUnlink(e, provider)}
-              inverted
-              compact
-            >
-              Unlink
-            </Button>
+        return (
+          <div className={containerInner} key={provider}>
+            <div className={logo}>
+              <a href={homepage} target="_blank">
+                <Icon name={provider} size="huge" inverted />
+              </a>
+              <Button
+                color="red"
+                size="mini"
+                onClick={e => handleProviderUnlink(e, provider)}
+                inverted
+                compact
+              >
+                Unlink
+              </Button>
+            </div>
+            <img
+              src={profilePhoto}
+              width="130"
+              height="130"
+              onMouseEnter={handleEnter}
+              onMouseLeave={handleLeave}
+            />
+            <div className={info}>
+              <label>
+                <strong>Location:</strong>
+              </label>{' '}
+              {location}
+              <br />
+              <label>
+                <strong>Company:</strong>
+              </label>{' '}
+              {company === undefined ? 'N/A' : company}
+              <br />
+              <label>
+                <strong>Website:</strong>
+              </label>{' '}
+              <a href={url} target="_blank" rel="noopener noreferrer">
+                {url}
+              </a>
+              <br />
+              <label>
+                <strong>Bio:</strong>
+              </label>{' '}
+              {bio}
+            </div>
           </div>
-          <img
-            src={profilePhoto}
-            width="130"
-            height="130"
-            onMouseEnter={handleEnter}
-            onMouseLeave={handleLeave}
-          />
-          <div className={info}>
-            <label>
-              <strong>Location:</strong>
-            </label>{' '}
-            {location}
-            <br />
-            <label>
-              <strong>Company:</strong>
-            </label>{' '}
-            {company === undefined ? 'N/A' : company}
-            <br />
-            <label>
-              <strong>Website:</strong>
-            </label>{' '}
-            <a href={url} target="_blank" rel="noopener noreferrer">
-              {url}
-            </a>
-            <br />
-            <label>
-              <strong>Bio:</strong>
-            </label>{' '}
-            {bio}
-          </div>
-        </div>
-      );
-    });
+        );
+      });
   };
 
   return (

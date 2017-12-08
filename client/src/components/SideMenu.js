@@ -76,6 +76,9 @@ class SideMenu extends Component {
           userCredentials.twitter
         );
       }
+      if (providerId === 'facebook') {
+        return API.fetchFacebookUser(userCredentials.facebook);
+      }
     });
     const resolved = await Promise.all(
       promisesArr.filter(promise => promise !== undefined)
@@ -104,6 +107,18 @@ class SideMenu extends Component {
           }
         };
       }
+      if (profile.provider === 'facebook') {
+        return {
+          facebook: {
+            location: profile.location.name,
+            url: profile.website,
+            company: profile.work[0].employer.name,
+            bio: profile.about,
+            profilePhoto: profile.picture.data.url,
+            homepage: profile.link
+          }
+        };
+      }
     });
 
     this.setState({ profiles });
@@ -111,7 +126,7 @@ class SideMenu extends Component {
 
   /**
    * Update the visibility of a provider's button
-   * @param {bool} visibility 
+   * @param {bool} visibility
    * @param {string} providerId
    */
   updateProviderVisibility = (visibility, providerId) => {
@@ -128,7 +143,7 @@ class SideMenu extends Component {
 
   /**
    * Updates profiles and buttons when user unlinks or connects a provider
-   * @param {bool} visibility 
+   * @param {bool} visibility
    * @param {object} - userCredentials - User's connected profile tokens
    * @param {string} providerId
    */
