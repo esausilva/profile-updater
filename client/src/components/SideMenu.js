@@ -61,6 +61,14 @@ class SideMenu extends Component {
     });
   }
 
+  isUndefinedOrBlank = property =>
+    property === undefined || property === '' || property === null
+      ? 'N/A'
+      : property;
+
+  buildUrl = link =>
+    `<a href='${link}' target='_blank' rel='noopener noreferrer'>${link}</a>`;
+
   /**
    * Calls provider APIs to read user's profile information
    */
@@ -87,10 +95,13 @@ class SideMenu extends Component {
       if (profile.provider === 'github') {
         return {
           github: {
-            location: profile.location,
-            url: profile.blog,
-            company: profile.company,
-            bio: profile.bio,
+            location: this.isUndefinedOrBlank(profile.location),
+            url:
+              this.isUndefinedOrBlank(profile.blog) === 'N/A'
+                ? 'N/A'
+                : this.buildUrl(profile.blog),
+            company: this.isUndefinedOrBlank(profile.company),
+            bio: this.isUndefinedOrBlank(profile.bio),
             profilePhoto: profile.avatar_url,
             homepage: profile.html_url
           }
@@ -99,9 +110,13 @@ class SideMenu extends Component {
       if (profile.provider === 'twitter') {
         return {
           twitter: {
-            location: profile.location,
-            url: profile.entities.url.urls[0].expanded_url,
-            bio: profile.description,
+            location: this.isUndefinedOrBlank(profile.location),
+            url:
+              this.isUndefinedOrBlank(profile.entities.url) === 'N/A'
+                ? 'N/A'
+                : this.buildUrl(profile.entities.url.urls[0].expanded_url),
+            company: 'N/A',
+            bio: this.isUndefinedOrBlank(profile.description),
             profilePhoto: profile.profile_image_url,
             homepage: `https://twitter.com/${profile.screen_name}`
           }
@@ -110,10 +125,19 @@ class SideMenu extends Component {
       if (profile.provider === 'facebook') {
         return {
           facebook: {
-            location: profile.location.name,
-            url: profile.website,
-            company: profile.work[0].employer.name,
-            bio: profile.about,
+            location:
+              this.isUndefinedOrBlank(profile.location) === 'N/A'
+                ? 'N/A'
+                : profile.location.name,
+            url:
+              this.isUndefinedOrBlank(profile.website) === 'N/A'
+                ? 'N/A'
+                : this.buildUrl(profile.website),
+            company:
+              this.isUndefinedOrBlank(profile.work) === 'N/A'
+                ? 'N/A'
+                : profile.work[0].employer.name,
+            bio: this.isUndefinedOrBlank(profile.about),
             profilePhoto: profile.picture.data.url,
             homepage: profile.link
           }

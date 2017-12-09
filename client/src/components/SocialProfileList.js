@@ -132,14 +132,12 @@ const SocialProfileList = props => {
               <label>
                 <strong>Company:</strong>
               </label>{' '}
-              {company === undefined ? 'N/A' : company}
+              {company}
               <br />
               <label>
                 <strong>Website:</strong>
               </label>{' '}
-              <a href={url} target="_blank" rel="noopener noreferrer">
-                {url}
-              </a>
+              <span dangerouslySetInnerHTML={{ __html: url }} />
               <br />
               <label>
                 <strong>Bio:</strong>
