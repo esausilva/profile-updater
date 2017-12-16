@@ -32,5 +32,10 @@ router.get('/api/facebook', (req, res) => {
     .then(data => res.json(data))
     .catch(err => res.json(err));
 });
+router.post('/api/facebook', (req, res) => {
+  FacebookAPI.updateProfile(req.body)
+    .then(data => res.json(data))
+    .catch(err => res.json(err));
+});
 
 module.exports = router;

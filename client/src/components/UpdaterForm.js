@@ -94,13 +94,16 @@ class UpdaterForm extends Component {
     let providers = [];
     const { userCredentials, fields } = this.state;
     const promisesArr = Object.keys(userCredentials).map(provider => {
+      providers.push(firstLetterToUpper(provider));
+
       if (provider === 'github') {
-        providers.push(firstLetterToUpper(provider));
         return API.updateGithubUserProfile(fields, userCredentials.github);
       }
       if (provider === 'twitter') {
-        providers.push(firstLetterToUpper(provider));
         return API.updateTwitterUserProfile(fields, userCredentials.twitter);
+      }
+      if (provider === 'facebook') {
+        return API.updateFacebookUserProfile(fields, userCredentials.facebook);
       }
     });
 

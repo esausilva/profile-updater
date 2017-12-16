@@ -88,13 +88,22 @@ const updateGithubUserProfile = (fields, credentials) =>
  * @param {object} credentials - User authentication to connect to Facebook API
  */
 const fetchFacebookUser = credentials => fetchUser(URL_FACEBOOK, credentials);
+/**
+ * Public.
+ * Updates Facebook user profile.
+ * @param {object} fields - Profile fields to update
+ * @param {object} credentials - User authentication to connect to GitHub API
+ */
+const updateFacebookUserProfile = (fields, credentials) =>
+  updateUserProfile(URL_FACEBOOK, fields, credentials);
 
 const API = {
   fetchTwitterUser,
   updateTwitterUserProfile,
   fetchGithubUser,
   updateGithubUserProfile,
-  fetchFacebookUser
+  fetchFacebookUser,
+  updateFacebookUserProfile
 };
 
 export default API;
