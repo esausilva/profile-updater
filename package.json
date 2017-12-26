@@ -5,7 +5,7 @@
   "author": {
     "name": "Esau Silva",
     "email": "esausilva85@gmail.com",
-    "url": "www.esausilva.com"
+    "url": "https://esausilva.com"
   },
   "license": "MIT",
   "scripts": {
@@ -13,7 +13,8 @@
     "client:bundleanalyzer": "cd client && yarn dev:bundleanalyzer",
     "server": "nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
-    "dev:bundleanalyzer": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client:bundleanalyzer\""
+    "dev:bundleanalyzer":
+      "concurrently --kill-others-on-fail \"yarn server\" \"yarn client:bundleanalyzer\""
   },
   "dependencies": {
     "body-parser": "^1.18.2",
@@ -34,11 +35,5 @@
   "bugs": {
     "url": "https://github.com/esausilva/profile-updater/issues"
   },
-  "keywords": [
-    "social profiles",
-    "facebook",
-    "github",
-    "twitter",
-    "node"
-  ]
+  "keywords": ["social profiles", "facebook", "github", "twitter", "node"]
 }

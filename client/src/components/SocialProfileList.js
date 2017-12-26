@@ -49,7 +49,7 @@ const SocialProfileList = props => {
    */
   const handleEnter = e => {
     const el = e.target;
-    const { triggerEnter, triggerEnterActive, open, infoBlock } = styles;
+    const { triggerEnter, triggerEnterActive, open } = styles;
 
     el.classList.add(triggerEnter);
     setTimeout(
@@ -63,10 +63,24 @@ const SocialProfileList = props => {
     const info = el.nextElementSibling;
     const infoCoords = info.getBoundingClientRect();
     const containerCoords = this.container.getBoundingClientRect();
+
+    let increment = 0;
+    switch (props.profiles.length) {
+      case 1:
+        increment = 10;
+        break;
+      case 2:
+        increment = 70;
+        break;
+      case 3:
+        increment = 130;
+        break;
+    }
+
     const coords = {
       height: infoCoords.height,
       width: infoCoords.width,
-      top: infoCoords.top - (containerCoords.top + 60),
+      top: infoCoords.top - (containerCoords.top + increment),
       left: infoCoords.left - containerCoords.left
     };
 

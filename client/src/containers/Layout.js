@@ -27,9 +27,7 @@ class Layout extends Component {
 
   render() {
     const { containerStyle, div, menuButton, mobileHamburger } = styles;
-    const menuStyle = `ui black huge launch right attached button ${
-      menuButton
-    }`;
+    const menuStyle = `ui black huge launch right attached button ${menuButton}`;
 
     return (
       <Sidebar.Pushable as={'div'} className={div}>
