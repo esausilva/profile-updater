@@ -274,9 +274,9 @@ node-fetch@^1.7.3:
     encoding "^0.1.11"
     is-stream "^1.0.1"
 
-oauth-1.0a@^2.2.2:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/oauth-1.0a/-/oauth-1.0a-2.2.2.tgz#9836a9f957d1f4c6b66661cc61c8f22763a05c83"
+oauth-1.0a@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/oauth-1.0a/-/oauth-1.0a-2.2.3.tgz#f247e154bebaa567cff64a792dc9810d3c3d91a6"
 
 on-finished@~2.3.0:
   version "2.3.0"

@@ -6,12 +6,7 @@ const port = process.env.PORT || 3000;
 
 const config = {
   entry: {
-    app: [
-      'react-hot-loader/patch',
-      `webpack-dev-server/client?http://localhost:${port}`,
-      'webpack/hot/only-dev-server',
-      './src/index.js'
-    ]
+    app: ['react-hot-loader/patch', './src/index.js']
   },
   output: {
     filename: '[name].[hash].js'
@@ -19,11 +14,6 @@ const config = {
   devtool: 'inline-source-map',
   module: {
     rules: [
-      {
-        test: /\.(js)$/,
-        exclude: /node_modules/,
-        use: ['react-hot-loader/webpack', 'babel-loader']
-      },
       {
         test: /\.css$/,
         use: [

@@ -14,7 +14,7 @@ class Login extends Component {
     buttonList: bl(firebase, 'black')
   };
 
-  /** 
+  /**
    * Checks if user is logged in, if so then sends them to secure area .
    */
   componentWillMount() {
@@ -39,7 +39,7 @@ class Login extends Component {
         />
         <Header as="h3">About</Header>
         <p>
-          A React App to Update Your Social Medial Profiles: Twitter, GitHub &
+          A React App to Update Your Social Media Profiles: Twitter, GitHub &
           Facebook. The purpose is to type your profile information once, and
           then send the updates to your profile in Twitter, GitHub & Facebook.
         </p>

@@ -12,6 +12,15 @@ const config = {
     path: commonPaths.outputPath,
     publicPath: '/'
   },
+  module: {
+    rules: [
+      {
+        test: /\.(js)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
+      }
+    ]
+  },
   plugins: [
     new Dotenv(),
     new HtmlWebpackPlugin({
