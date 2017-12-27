@@ -56,7 +56,10 @@ const config = {
     //   sourceMap: true,
     //   comments: false
     // }),
-    new ExtractTextPlugin('styles/styles.[hash].css')
+    new ExtractTextPlugin({
+      filename: 'styles/styles.[hash].css',
+      allChunks: true
+    })
   ]
 };
 
