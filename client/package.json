@@ -23,8 +23,9 @@
     "immutability-helper": "^2.6.2",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
+    "react-delay-render": "^0.1.2",
     "react-dom": "^16.2.0",
-    "react-loadable": "^5.3.1",
+    "react-imported-component": "^1.0.3",
     "react-router-dom": "^4.2.2",
     "semantic-ui-react": "^0.75.1",
     "whatwg-fetch": "^2.0.3"
