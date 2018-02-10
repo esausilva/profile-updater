@@ -1,8 +1,8 @@
 const commonPaths = require('./common-paths');
 
 const webpack = require('webpack');
-const MinifyPlugin = require('babel-minify-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const config = {
   entry: {
@@ -51,13 +51,16 @@ const config = {
         NODE_ENV: JSON.stringify('production')
       }
     }),
-    new MinifyPlugin(),
-    // new webpack.optimize.UglifyJsPlugin({
-    //   sourceMap: true,
-    //   comments: false
-    // }),
+    new UglifyJsPlugin({
+      sourceMap: true,
+      uglifyOptions: {
+        output: {
+          comments: false
+        }
+      }
+    }),
     new ExtractTextPlugin({
-      filename: 'styles/styles.[hash].css',
+      filename: 'styles/styles.[contenthash].css',
       allChunks: true
     })
   ]
