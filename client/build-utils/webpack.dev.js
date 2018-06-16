@@ -2,11 +2,12 @@ const commonPaths = require('./common-paths');
 
 const webpack = require('webpack');
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 const config = {
+  mode: 'development',
   entry: {
-    app: ['react-hot-loader/patch', './src/index.js']
+    app: `${commonPaths.appEntry}/index.js`
   },
   output: {
     filename: '[name].[hash].js'
@@ -24,7 +25,6 @@ const config = {
             loader: 'css-loader',
             options: {
               modules: true,
-              importLoaders: 1,
               camelCase: true,
               sourceMap: true
             }
@@ -33,11 +33,7 @@ const config = {
       }
     ]
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
-  ],
+  plugins: [new webpack.HotModuleReplacementPlugin()],
   devServer: {
     host: 'localhost',
     port: port,

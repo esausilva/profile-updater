@@ -21,15 +21,23 @@ const config = {
       }
     ]
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          chunks: 'initial',
+          test: 'vendor',
+          name: 'vendor',
+          enforce: true
+        }
+      }
+    }
+  },
   plugins: [
     new Dotenv(),
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       favicon: 'public/favicon.ico'
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: ['vendor'],
-      minChunks: Infinity
     })
   ]
 };

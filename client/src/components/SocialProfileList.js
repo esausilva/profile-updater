@@ -15,6 +15,9 @@ const propTypes = {
 };
 
 const SocialProfileList = props => {
+  let background = React.createRef();
+  let container = React.createRef();
+
   /**
    * @param {string} provider - Social media provider
    * @param {string} userId - User ID of the currently logged in user
@@ -58,11 +61,11 @@ const SocialProfileList = props => {
         el.classList.add(triggerEnterActive),
       150
     );
-    this.background.classList.add(open);
+    background.current.classList.add(open);
 
     const info = el.nextElementSibling;
     const infoCoords = info.getBoundingClientRect();
-    const containerCoords = this.container.getBoundingClientRect();
+    const containerCoords = container.current.getBoundingClientRect();
 
     let increment = 0;
     switch (props.profiles.length) {
@@ -84,9 +87,9 @@ const SocialProfileList = props => {
       left: infoCoords.left - containerCoords.left
     };
 
-    this.background.style.setProperty('width', `${coords.width}px`);
-    this.background.style.setProperty('height', `${coords.height}px`);
-    this.background.style.setProperty(
+    background.current.style.setProperty('width', `${coords.width}px`);
+    background.current.style.setProperty('height', `${coords.height}px`);
+    background.current.style.setProperty(
       'transform',
       `translate(${coords.left}px, ${coords.top}px)`
     );
@@ -100,7 +103,7 @@ const SocialProfileList = props => {
     const { triggerEnter, triggerEnterActive, open } = styles;
 
     e.target.classList.remove(triggerEnter, triggerEnterActive);
-    this.background.classList.remove(open);
+    background.current.classList.remove(open);
   };
 
   const renderProfiles = () => {
@@ -164,11 +167,8 @@ const SocialProfileList = props => {
   };
 
   return (
-    <div className={styles.container} ref={div => (this.container = div)}>
-      <div
-        className={styles.dropdownBackground}
-        ref={div => (this.background = div)}
-      >
+    <div className={styles.container} ref={container}>
+      <div className={styles.dropdownBackground} ref={background}>
         <span className={styles.arrow} />
       </div>
       {renderProfiles()}
