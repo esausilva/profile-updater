@@ -87,17 +87,11 @@ To run with [Webpack Bundle Analyzer](https://github.com/webpack-contrib/webpack
 yarn dev:bundleanalyzer
 ```
 
-## Roadmap
+## Giving Back
 
-In no particular order.
+If you would like to support my work and the time I put into making tutorials, consider getting me a coffee by clicking on the image below. I would really appreciate it!
 
-* ~~Better "Page Not Found"~~
-* ~~Current connected providers and profile information in side menu~~
-* ~~Code splitting~~
-* ~~Update to React 16 and Webpack 3~~
-* ~~Better error handling throughout the app~~
-* ~~Unlink an auth provider from an user account~~
-* ~~Send updates to Facebook profile (will implement last)~~
+[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/black_img.png)](https://www.buymeacoffee.com/esausilva)
 
 ## Preview
 
